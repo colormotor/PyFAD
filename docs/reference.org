@@ -1,0 +1,228 @@
+#+title: Reference
+#+PROPERTY: header-args :async no :exports both
+
+#+BEGIN_SRC jupyter-python :session py :exports none
+from importlib import reload
+import py5canvas
+from py5canvas import canvas
+reload(canvas)
+reload(py5canvas)
+from py5canvas import *
+#+END_SRC
+
+#+RESULTS:
+
+* Intro
+[[https://github.com/colormotor/py5canvas/][Py5canvas]] is a Python "flavour" of Processing. It is designed to work inside Jupyter notebooks or in the form of interactive sketches. The syntax of this framework is designed to be very similar to it's cousins [[https://processing.org][Processing]] (in [[https://en.wikipedia.org/wiki/Java_(programming_language)][Java]]) and [[https://p5js.org][P5js]] (in Javascript). As a result, Processing/P5js documentation and tutorials should remain useful references and the relevant examples should be easy to adapt to their Python counterparts.
+
+Apart from the essential language differences (e.g. comments in Python are preceded by ~#~ as opposed to ~//~ as in Java/Javascript), the main difference between Py5canvas and either P5js or Processing is that it uses the [[https://en.wikipedia.org/wiki/Snake_case]["snake_case"]] naming convention as opposed to [[https://en.wikipedia.org/wiki/Camel_case]["CamelCase"]]. This is pretty much the standard in Python code, meaning that function and variable names generally use English words separated by underscores rather than capitalization. As an example, the P5js function ~createCanvas~ will be ~create_canvas~ in py5canvas.
+
+With Py5Canvas being a recently developed project, the documentation is still under construction and lacks examples for all functionality. For the time being, it is useful to also refer to the more extensive documentation/tutorials for [[https://processing.org][Processing]] and [[https://p5js.org][P5js]], while keeping in mind the syntax switch from camel case to snake case. E.g. Processing's [[https://processing.org/reference/beginContour_.html][beginContour]] function will become ~begin_contour~ but the information in the processing reference remains generally valid for the Python case.
+
+Another useful source of documentation is the more mature Python port of Processing [[https://p5.readthedocs.io/en/latest/][p5py]], which has an almost identical syntax to Py5canvas. While p5py is a extensive port of all the Processing functionalities, it does not currently support features such as Jupyter notebooks, live-reloading of sketches, vector graphics exporting, parameter saving and an interactive UI. At the same time, it has a better high-level support for interactive 3d graphics, so you should probably use that if that is your goal.
+
+
+
+* Basics (in a Jupyter notebook)
+The py5canvas module allows to use commands similar to Processing or p5js in a Jupyter notebook. Similarly to processing, this works by "injecting" code into the current context, which gives access to commands that would be usually require a more complex syntax.
+
+To use py5canvas in a notebook import it and create a canvas as follows:
+#+BEGIN_SRC jupyter-python :session py
+from py5canvas import *
+create_canvas(400, 400)
+#+END_SRC
+
+#+RESULTS:
+: <py5canvas.canvas.Canvas at 0x12fed5630>
+
+Here we created a canvas with size ~(512, 512)~. When created the canvas will be empty, we can draw an ellipse and show it below a code cell with:
+#+BEGIN_SRC jupyter-python :session py
+ellipse (200, 200, 300, 300)
+show()
+#+END_SRC
+
+#+RESULTS:
+[[file:./.ob-jupyter/291521f37520aa87836fb943b9aa87d91271848b.png]]
+
+The ~ellipse~ line tells the program to draw an ellipse centered at 50 pixels from the left and 50 pixels from the top, with a width and height of 300 pixels. The ~show()~ function displays the canvas under the current code shell.
+
+We can clear the canvas background with a given color using ~background(...)~. E.g:
+#+BEGIN_SRC jupyter-python :session py
+background(255)
+show()
+#+END_SRC
+
+#+RESULTS:
+[[file:./.ob-jupyter/cefd84b5cc07ad4affd47767ca656fdbb009316f.png]]
+
+The way in which we specify colors is flexible, by providing a single value to the ~background~ function we specify a grayscale value. Three values can be used to specify the RGB components of a color. By default the range of values is between ~0~ and ~255~.
+
+** Persistence
+Because of how Python notebooks are structured, once a canvas is created in one code cell using ~create_canvas~, it will remain persistent in the following cells. For example, we already cleared the background of the current canvas to white, and can now add a line to it and display. Try re-executing the cell multiple times and you will see lines accumulating.
+#+BEGIN_SRC jupyter-python :session py
+line(random(0, width), random(0, height),
+     random(0, width), random(0, height))
+show()
+#+END_SRC
+
+#+RESULTS:
+[[file:./.ob-jupyter/b77d2a9b7f79515df4a36ec6e5a99547643332e2.png]]
+
+Note that here we use the ~width~ and ~height~ properties to retrieve the width and height of the canvas. We also use the ~random~ function that returns a random number between the first and the second argument.
+
+
+** Shapes and styles
+ Let's use the same canvas to add a line of a different color, say red.
+ #+BEGIN_SRC jupyter-python :session py
+stroke(255, 0, 0)
+line(width - 10, 10, 10, height - 10)
+show()
+ #+END_SRC
+
+ #+RESULTS:
+ [[file:./.ob-jupyter/84e4da94719d4aef9ddd8a19681f000ebb374782.png]]
+
+ The ~stroke~ function sets the color of the current stroke. It can be used in multiple ways depending on the arguments:
+ #+BEGIN_SRC jupyter-python :session py
+stroke(255)                # sets the stroke color to white
+stroke(255, 255, 255)      # identical to the line above
+stroke(255, 128, 0)        # bright orange (red 255,green 128, blue 0)
+stroke("#FF8000")          # bright orange as a web color (string)
+stroke(255, 128, 0, 128)   # bright orange with 50% transparency
+ #+END_SRC
+
+ #+RESULTS:
+
+ Try replacing the ~stroke~ call before the one above and see how this works. A similar procedure can be used to set the current fill color using ~fill~
+ #+BEGIN_SRC jupyter-python :session py
+background(128)
+stroke(0)
+fill("#FF8000")
+circle(width/2, height/2, 100)
+show()
+ #+END_SRC
+
+ #+RESULTS:
+ [[file:./.ob-jupyter/acf9b02f706c0c3729778b8afadffdf99409105b.png]]
+
+ Shapes can also be only outlined or only stroked. To do this, you can use the ~no_stroke()~ and ~no_fill()~ functions to eliminate the stroke and fill respectively:
+ #+BEGIN_SRC jupyter-python :session py
+background(128)
+no_stroke()
+fill(0)
+circle(width, height/2, 200)
+stroke(255)
+no_fill()
+circle(0, height/2, 200)
+show()
+ #+END_SRC
+
+ #+RESULTS:
+ [[file:./.ob-jupyter/28076ff20d8e7d42d1f6f856c544f588a07ac836.png]]
+
+
+** Text
+#+BEGIN_SRC jupyter-python :session py
+import py5canvas
+from py5canvas import canvas
+reload(canvas)
+reload(py5canvas)
+from py5canvas import *
+create_canvas(200,200)
+background(0)
+color_mode('RGB', 255)
+fill(255, 0, 0)
+circle(width/2, height/2, 3)
+fill(255)
+#
+text('cairo', [width/2, height/2], align='center', valign='bottom')
+stroke(255)
+no_fill()
+
+stroke_weight(10)
+stroke(255, 0, 0)
+circle(width/2, height/2, 50)
+stroke(255)
+arc(width/2, height/2, 100, 100, radians(0), radians(60))
+
+show()
+#+END_SRC
+
+#+RESULTS:
+[[file:./.ob-jupyter/7bff16a386cec47c34e1687c06ffffe6146114d5.png]]
+
+#+BEGIN_SRC jupyter-python :session py
+from polygonsoup import bezier
+bezier.bezier(np.array([[100, 20],
+                        [200, 30],
+                        [400, 50],
+                        [500, 40]]), np.array([0.4])).shape
+#+END_SRC
+
+#+RESULTS:
+| 1 | 2 |
+
+** Learning from Processing
+
+Many functionalities in Py5canvas are very similar to its Java and Javascript counterparts, so many existing tutorials can be easily adapted by keeping in mind the "camel_case" trick and the syntax differences between languages.
+
+*** Color handling
+For learning about color handling, you can look at [[https://processing.org/tutorials/color][this Processing tutorial]] by Daniel Shiffman as a reference. We can for copy one of his examples from the tutorial in a cell, and the convert the comments to Python syntax (using ~#~), convert some functions to camel case and finally add a ~show()~ at the end to visualze:
+
+ #+BEGIN_SRC jupyter-python :session py
+from importlib import reload
+from py5canvas import notebook, canvas
+reload(canvas)
+reload(notebook)
+from py5canvas.notebook import *
+
+size(200,200);
+background(0);
+no_stroke();
+
+# No fourth argument means 100% opacity.
+fill(0,0,255);
+rect(0,0,100,200);
+
+# 255 means 100% opacity.
+fill(255,0,0,255);
+rect(0,0,200,40);
+
+# 75% opacity.
+fill(255,0,0,191);
+rect(0,50,200,40);
+
+# 55% opacity.
+fill(255,0,0,127);
+rect(0,100,200,40);
+
+# 25% opacity.
+fill(255,0,0,63);
+rect(0,150,200,40);
+show()
+ #+END_SRC
+
+ #+RESULTS:
+ [[file:./.ob-jupyter/702a8f1893cd0ddd88badc4e9cdc8adeca94a576.png]]
+
+ Note that, if we are lazy, we can leave semicolons in the code. These are only used in Python to separate between code statements in the same line.
+
+
+*** Coordinate System and Shapes
+ Another basic but useful tutorial by Shiffman is one on [[https://processing.org/tutorials/coordinatesystemandshapes][coordinate systems and shapes]]. Again we can easily adapt the code with little modification:
+
+ #+BEGIN_SRC jupyter-python :session py
+size(200,200);
+rect_mode(CENTER);
+rect(100,100,20,100);
+ellipse(100,70,60,60);
+ellipse(81,70,16,32);
+ellipse(119,70,16,32);
+line(90,150,80,160);
+line(110,150,120,160);
+show()
+ #+END_SRC
+
+ #+RESULTS:
+ [[file:./.ob-jupyter/1114247b016f12a7469abf3d792e07cb39371833.png]]
+* Interactive sketches
