@@ -1,6 +1,6 @@
 '''
   Additive synthesis and standing waves (https://en.wikipedia.org/wiki/Standing_wave)
-  - Try modifiyng `a` to positive integer values and observe the effect
+  - Try modifying `a` to positive integer values and observe the effect
   - Try adding more sine waves
 '''
 
@@ -18,7 +18,7 @@ def draw():
     t = frame_count * 0.01
     a = 2
     
-    freq = 2.0 * TWO_PI / width
+    freq = 2 * TWO_PI / width
 
     # Create a loop over x that increments by 2 each iteration
     for x in arange(0, width, 2):
@@ -29,9 +29,9 @@ def draw():
 
     # Uncomment to visualize the "nodes" when `a` is an integer
     # Nodes are stationary points along the wave
-    # fill(255, 0, 0)
-    # for i in arange(0, width, width / (a * 2 + 2)):
-    #     circle(i, height / 2, 7)
+    fill(255, 0, 0)
+    for i in arange(0, width, width / (a * 2 + 2)):
+        circle(i, height / 2, 7)
 
 # Run the sketch
 run()
