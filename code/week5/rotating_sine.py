@@ -9,7 +9,7 @@ from py5canvas import *
 
 num_circles = 40
 amplitude = 100
-phase_inc = PI
+phase_inc = 1
 
 def setup():
     create_canvas(400,400)
