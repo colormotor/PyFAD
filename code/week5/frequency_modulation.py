@@ -5,7 +5,7 @@
 - Can you change the carrier_freq variable to have a modulation that changes across the wave?
     - To do so do something similar to the amplitude modulation example
     - Add a `freq_mod_freq` variable and set it to something small 
-    - Inside the `sin` controlling `carrier_freq` use 
+    - Inside the `sin` controlling `carrier_freq` use `y*freq_mod_freq + freq_mod_phase`
 '''
 
 from py5canvas import *
@@ -25,8 +25,10 @@ def draw():
     translate(width/2,0)
     begin_shape()
     for y in linspace(0, height, height+1):
-        carrier_freq = remap(sin(y*freq_mod_freq + freq_mod_phase),-1, 1, 0.01, 0.1)
-        x = remap(sin(y * carrier_freq), -1, 1, -50, 50)
+        #carrier_freq = remap(sin(y*freq_mod_freq + freq_mod_phase),-1, 1, 0.01, 0.1)
+        carrier_freq = sin(freq_mod_phase)*0.1
+        #carrier_freq = sin(y*freq_mod_freq + freq_mod_phase)*0.5
+        x = sin(y * carrier_freq)*50
         vertex(x, y)
     end_shape()
 

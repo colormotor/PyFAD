@@ -41,7 +41,7 @@ def draw():
 
     # Parallelogram rule (in this case a rectangle)
     stroke_weight(1)
-    stroke(128)
+    stroke(255)
     arrow(center + x_vec, p)
     arrow(center + y_vec, p)
 

@@ -6,7 +6,7 @@ TASKS:
 '''
 from py5canvas import *
 
-amp_mod_phase = 0.5 
+amp_mod_phase = 2.5 
 amp_mod_freq = 0.01
 carrier_freq = 0.05
 
@@ -23,8 +23,8 @@ def draw():
     
     begin_shape()
     for x in range(width):
-        carrier_amp = remap(sin(x * amp_mod_freq + amp_mod_phase), -1, 1, 0, 150)
-        y = remap(sin(x * carrier_freq), -1, 1, -carrier_amp, carrier_amp)
+        amp = sin(x * amp_mod_freq + amp_mod_phase)*100
+        y = sin(x * carrier_freq)*amp
         vertex(x, y)
     end_shape()
     
