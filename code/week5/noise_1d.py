@@ -2,18 +2,18 @@ from py5canvas import *
 
 def setup():
     create_canvas(600, 400)
-    noise_detail(3)
+    noise_detail(2)
 
 def draw():
     background(255)
     translate(0, height/2)
     no_fill()
-    
+    print(noise(5.4))
     phase = 0
 
     n = 5
     
-    amplitude = 100
+    amplitude = 200
     begin_shape()
     for input in linspace(0, n-1, 200):
         x = remap(input, 0, n-1, 0, width)

@@ -2,6 +2,7 @@ from py5canvas import *
 from PIL import ImageOps
 
 w, h = 400, 400
+# Remove 'fingers.mov ,' to use webcam
 vin = VideoInput('fingers.mov', size=(w, h))
 
 def setup():
@@ -9,9 +10,6 @@ def setup():
 
 def draw():
     img = vin.read()
-    # Uncomment to mirror
-    # img = ImageOps.mirror(img)
-
-    image(vin.read())
+    image(img)
 
 run()
