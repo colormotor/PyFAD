@@ -35,4 +35,4 @@ def draw():
     if 'other.a_text' in sketch.gui.changed:
         print('Text changed to: ', params.other.a_text)
     
-run()
+run(show_toolbar=True)
