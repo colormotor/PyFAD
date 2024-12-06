@@ -33,5 +33,6 @@ def received_osc(addr, val):
         bg = val
 
 def key_pressed(key):
+    print('Sending osc')
     send_osc('/value', 10.0)
 run()
