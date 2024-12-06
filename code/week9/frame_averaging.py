@@ -6,14 +6,14 @@ vin = VideoInput('fingers.mov', size=(w, h))
 
 # Create a buffer of images
 images = []
-num_frames = 20 # Number of frames to average
+num_frames = 30 # Number of frames to average
 
 # For color images, format is height (num rows), width (num cols), num_channels 
 # Alternative syntax, "List comprehension":
-images = [np.zeros((h, w, 3)) for i in range(num_frames)]
+#images = [np.zeros((h, w, 3)) for i in range(num_frames)]
 # Equivalent to:
-# for i in range(num_frames):
-#     images.append(np.zeros((h, w, 3)))
+for i in range(num_frames):
+    images.append(np.zeros((h, w, 3)))
 
 def setup():
     create_canvas(w, h)
@@ -28,16 +28,16 @@ def draw():
     # new_img = new_img.convert('L')
     new_img = np.array(new_img)/255
     # Append image to end of list and remove element from "front"
-    images.append(new_img)
     images.pop(0)
+    images.append(new_img)
 
     # Average images. Two ways to do this
     # 1. Use builtin `sum` function (it sums the arguments in a sequence provided as input)
     #    then divide by the number of frames 
-    #average_img = sum(images)/num_frames #[-1] #np.mean(images, axis=-1)
+    average_img = sum(images)/len(images) #[-1] #np.mean(images, axis=-1)
     # 2. Use NumPy `mean` function (mean means average, no pun intended)
-    average_img = np.mean(images, axis=0)
-
+    #average_img = np.mean(images, axis=0)
+    print(average_img.min())
     image(average_img)
 
 run()
