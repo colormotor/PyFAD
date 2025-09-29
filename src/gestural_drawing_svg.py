@@ -52,4 +52,5 @@ def draw():
 def key_pressed(key):
     if key == ' ':
         save('brush.pdf')
+        
 run(show_toolbar=True)
