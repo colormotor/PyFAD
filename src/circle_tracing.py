@@ -3,6 +3,9 @@ from py5canvas import *
 num_points = 20
 spacing = 5
 
+circle(10, 10, 20)
+
+
 def setup():
     create_canvas(600, 600)
 

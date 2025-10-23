@@ -7,25 +7,24 @@ def setup():
     create_canvas(600, 600)
 
 def draw():
+    background(255)
     random_seed(10)
     #background(255)
     stroke(0)
     no_fill()
     line = []
-    for y in linspace(0, height, num_points):
-        line.append(Vector(-spacing, y))
+    for i in range(num_points):
+        y = remap(i, 0, num_points-1, 0, height)
+        line.append(vector(-spacing, y))
 
-    amount = 10 #remap(mouse_x, 0, width, 0.0, 10.0)
+    amount = 5
     x = 0
-    while x < width/2: 
+    while x < width: 
         begin_shape()
         for i in range(num_points):
-            line[i] += Vector(random(0, 1)*amount + spacing, 0)
+            line[i] += vector(random(0, 1)*amount + spacing, 0)
             curve_vertex(line[i])
         end_shape()
         x += spacing
 
-def key_pressed(key):
-    if key==' ':
-        save('lines.svg')
 run()
