@@ -17,7 +17,6 @@ def draw():
     t = seconds()*0.2 # Number of seconds since we started
     points = text_points('HELLO', 0, 0, 6)
     v = t
-    print(len(points))
     for p in points:
         offset_x = remap(noise(v), 0, 1, -1, 1)*offset_amount
         offset_y = remap(noise(v+0.32), 0, 1, -1, 1)*offset_amount

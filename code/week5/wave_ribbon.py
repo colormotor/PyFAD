@@ -47,8 +47,10 @@ def draw():
 
     amp = 100
     freq = 1
-    phase = 0 
-    for x in linspace(0, width, 200):
+    phase = 0
+    n = 200 
+    for i in range(n):
+        x = remap(i, 0, n, 0, width)
         t = (x/width)*TWO_PI
         y = wave(t*freq + phase)*amp
         circle(x, y, 20) 

@@ -8,15 +8,15 @@ def draw():
     background(255)
     translate(0, height/2)
     no_fill()
-    print(noise(5.4))
     phase = 0
 
-    n = 5
-    
+    nodes = 5
+    n = 200
     amplitude = 200
     begin_shape()
-    for input in linspace(0, n-1, 200):
-        x = remap(input, 0, n-1, 0, width)
+    for i in range(n):
+        x = remap(i, 0, n-1, 0, width)
+        input = remap(i, 0, n-1, 0, nodes)
         y = remap(noise(input + phase), 0, 1, -amplitude, amplitude)
         vertex(x, y)
     end_shape()
@@ -24,8 +24,8 @@ def draw():
     # Draw the zero 
     stroke(255, 0, 0, 128)
     line(0, 0, width, 0)
-    for i in range(n):
-        x = remap(i, 0, n-1, 0, width)
+    for i in range(nodes):
+        x = remap(i, 0, nodes, 0, width)
         circle(x, 0, 4)
     stroke(0)
     
