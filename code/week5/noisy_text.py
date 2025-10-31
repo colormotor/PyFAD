@@ -1,5 +1,4 @@
 from py5canvas import *
-from polygonsoup import utils
 
 offset_amount = 40
 
