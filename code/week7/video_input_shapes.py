@@ -2,7 +2,7 @@ from py5canvas import *
 from PIL import ImageOps
 
 w, h = 400, 400
-vin = VideoInput(0, size=(w, h))
+vin = VideoInput(1, size=(w, h))
 
 def setup():
     create_canvas(w, h)
