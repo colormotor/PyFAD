@@ -1,6 +1,6 @@
 from py5canvas import *
 
-num_frames = 300
+num_frames = 100
 
 def setup():
     create_canvas(400, 400)

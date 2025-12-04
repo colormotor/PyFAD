@@ -68,6 +68,4 @@ def draw():
     car.move()
     car.display()
 
-
-
 run()

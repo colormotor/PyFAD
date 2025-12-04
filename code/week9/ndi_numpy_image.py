@@ -4,7 +4,7 @@ NDI Sender example using py5canvas and NDIlib
 To run you need to install the NDI SDK (system wide) on your machine from:
 https://ndi.video/for-developers/ndi-sdk/
 And then the ndi-python package with
-pip nstall ndi-python
+pip install ndi-python
 '''
 
 from py5canvas import *
@@ -32,12 +32,23 @@ def setup_ndi(name="py5canvas NDI Sender"):
         if ndi_send is None:
             print("Could not initialize NDI sender")
 
+
+def send_ndi():
+    img = get_image().convert('RGBA')
+    video_frame = ndi.VideoFrameV2()
+    video_frame.data = np.array(img, dtype=np.uint8)
+    video_frame.FourCC = ndi.FOURCC_VIDEO_TYPE_RGBA
+    ndi.send_send_video_v2(ndi_send, video_frame)
+
+
 def normalize_image(im):
     return (im - im.min())/(im.max() - im.min())
     
+
 def setup():
     create_canvas(512, 512) #1024, 1024) #512, 512)
     setup_ndi()
+
 
 def draw():
     background(0)
@@ -72,12 +83,7 @@ def draw():
 
 
     # Send frame via NDI
-    img = get_image().convert('RGBA')
-    video_frame = ndi.VideoFrameV2()
-    video_frame.data = img
-    video_frame.FourCC = ndi.FOURCC_VIDEO_TYPE_RGBA
-    ndi.send_send_video_v2(ndi_send, video_frame)
-
+    send_ndi()
 
 
 run()
