@@ -8,6 +8,8 @@ pip install ndi-python
 '''
 
 from py5canvas import *
+
+###################################################
 import NDIlib as ndi
 
 def setup_ndi(name="py5canvas NDI Sender"):
